@@ -1,10 +1,11 @@
+
 from colors import WHITE, YELLOW
 from random import randrange, random, uniform, randint
 from math import ceil
 import copy
 
 class Sheep:
-	
+
 	def __init__(self, x, y, sheep_color = WHITE, speed = 4, energy = 20, reproduction_energy = 40):
 		self.x = x
 		self.y = y
@@ -17,7 +18,7 @@ class Sheep:
 			'move': 1,
 			'reproduction': self.reproduction_energy*.6
 		}
-			
+
 	def mutation(self):
 		""" gera uma mutação aleatória na velocidade e energia necessária para reprodução
 		"""
@@ -25,18 +26,18 @@ class Sheep:
 		self.speed += randint(-1,1)
 		self.reproduction_energy = int(self.reproduction_energy * uniform(0.5, 2))
 		self.reproduction_energy = 3 if self.reproduction_energy < 3 else self.reproduction_energy
-			
+
 		self.energy_comsumption = {
 			'move': 1,
 			'reproduction': self.reproduction_energy*.6}
 
 		print("Mutação >> Vel: {} Rep: {}".format(self.speed, self.reproduction_energy))
-		
+
 	def move(self, world):
 		""" Faz a ovelha se movimentar
 		de acordo com sua velocidade em
 		uma direcao aleatoria.
-		
+
 		Se a ovelha ultrapassar os limites
 		da tela, ela sera renderizada do
 		lado oposto ao qual ela ultrapassou
@@ -53,12 +54,12 @@ class Sheep:
 			denergy = int(round(self.energy_comsumption['move'] * (abs(dx) + abs(dy)) * self.energy/100))
 			#print("denergy : ",denergy)  # para debug
 			if denergy > 0:
-				self.energy = self.energy - denergy 
+				self.energy = self.energy - denergy
 			else:
 				self.energy = self.energy - 1
-		
+
 		world.ellipse(self.x, self.y, self.size, self.size, self.color)
-			
+
 	def fix_position(self, world):
 		""" Mantem a ovelha dentro
 		do campo de visao, a operacao
@@ -71,7 +72,7 @@ class Sheep:
 				self.x = world.width - 1
 			elif self.x < 0:
 				self.x  = 0
-			
+
 			if self.y >= world.height:
 				self.y = world.height - 1
 			elif self.y < 0:
@@ -81,12 +82,12 @@ class Sheep:
 				self.x %= world.width
 			elif self.x < 0:
 				self.x  += world.width
-			
+
 			if self.y >= world.height:
 				self.y %= world.height
 			elif self.y < 0:
 				self.y += world.height
-	
+
 	def die(self, sheeps):
 		""" Se a energia da ovelha
 		chegar a zero ela morre. Ou seja,
@@ -94,7 +95,7 @@ class Sheep:
 		"""
 		if self.energy <= 0:
 			sheeps.remove(self)
-	
+
 	def reproduce(self, sheeps, mutation):
 		""" A ovelha se reproduz se
 		chegar no limiar de energia necessario
@@ -108,7 +109,7 @@ class Sheep:
 			if randint(0, 100) < mutation:
 				newsheep.mutation()
 			sheeps.append(newsheep)
-				
+
 	def try_eat(self, world, foods):
 		""" A ovelha tenta se alimentar, se a posicao em
 		que ela estiver for a posicao de uma comida disponivel,
@@ -121,7 +122,7 @@ class Sheep:
 		if not food.eaten:
 			self.energy += food.energy
 			food.eated()
-	
+
 	def update(self, world, sheeps, foods,mutation):
 		self.move(world)
 		self.try_eat(world,foods)

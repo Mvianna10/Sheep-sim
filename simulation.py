@@ -1,3 +1,4 @@
+
 from random import choice, randint
 from sheep import Sheep
 from grass import Grass

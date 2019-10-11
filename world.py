@@ -1,3 +1,4 @@
+
 import os
 import sys
 import pygame as pg
@@ -8,7 +9,7 @@ class World:
 		self.width = width
 		self.height = height
 		self. flat = flat
-		self.fps = 1 #60	
+		self.fps = 1 #60
 		self.done = False
 		os.environ['SDL_VIDEO_CENTERED'] = '1'
 		pg.init()
@@ -17,7 +18,7 @@ class World:
 		self.screen = pg.display.get_surface()
 		self.keys = pg.key.get_pressed()
 		self.clock = pg.time.Clock()
-		
+
 	def tick(self):
 		pg.display.update()
 		#self.clock.tick(self.fps)  # tempo de espera por frame se for muito rápido
@@ -32,16 +33,16 @@ class World:
 			if event.type == pg.QUIT or self.keys[pg.K_ESCAPE]:
 					self.done = True
 			elif event.type in (pg.KEYUP, pg.KEYDOWN):
-				self.keys = pg.key.get_pressed() 
+				self.keys = pg.key.get_pressed()
 
 	def clear(self):
  		""" limpa a tela com cor de terra (planta comida)
  		"""
  		self.screen.fill(BROWN)
-    
+
 	def ellipse(self, x, y, xsize, ysize, color):
 		pg.draw.ellipse(self.screen, color, (x,y,xsize,ysize))
-		
+
 	def rect(self, x, y, xsize, ysize, color):
 		pg.draw.rect(self.screen, color, (x,y,xsize,ysize))
 
